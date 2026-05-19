@@ -19,6 +19,11 @@ export const declineReviewPatch = (
   return {
     finalVideo: null,
 
+    checklist: {
+    ...(card.checklist || {}),
+    finalVideoUploaded: false,
+    },
+
     review: {
       ...(card.review || {}),
       status: 'declined',

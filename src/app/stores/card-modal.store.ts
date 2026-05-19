@@ -28,6 +28,7 @@ import {
   showCaption,
   showFinalVideoSelector,
   showReviewComments,
+  isReviewCard,
 } from '../workflow/visibility'
 
 import {
@@ -110,6 +111,7 @@ export class CardModalStore {
   readonly getVisibleChecklistGroups = getVisibleChecklistGroups
   readonly hasVisibleChecklist = hasVisibleChecklist
   readonly isPlanningCard = isPlanningCard
+  readonly isReviewCard = isReviewCard
   readonly showFinalVideoSelector = showFinalVideoSelector
 
   isChecklistChecked(
@@ -501,6 +503,10 @@ export class CardModalStore {
     this.kistlboard
       .updateCard(card.id, {
         finalVideo: mediaId,
+        review: {
+        ...(card.review || {}),
+        status: 'none',
+      },
       })
       .subscribe({
         next: (updatedCard) => {

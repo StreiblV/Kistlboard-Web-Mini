@@ -9,6 +9,7 @@ import { CHECKLIST_GROUPS, ChecklistGroup } from './workflow/kistlchecklist.conf
 import { CardModalStore } from './stores/card-modal.store'
 import { KistlCardComponent } from './components/kistl-card/kistl-card'
 import { CardModalComponent } from './components/card-modal/card-modal'
+import { ReviewModalComponent } from './components/review-modal/review-modal'
 import { CreateCardModalComponent } from './components/create-card-modal/create-card-modal'
 
 interface BoardColumn {
@@ -24,6 +25,7 @@ interface BoardColumn {
     FormsModule, 
     KistlCardComponent, 
     CardModalComponent, 
+    ReviewModalComponent,
     CreateCardModalComponent
   ],
   templateUrl: './app.html',
@@ -34,7 +36,6 @@ export class AppComponent implements OnInit {
   loading = false
   error = ''
 
-  selectedCard: KistlCard | null = null
   checklistGroups: ChecklistGroup[] = CHECKLIST_GROUPS
 
   columns: BoardColumn[] = [

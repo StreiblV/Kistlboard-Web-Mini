@@ -1,8 +1,7 @@
 .review-overlay {
   position: fixed;
   inset: 0;
-
-  z-index: 500;
+  z-index: 1000;
 
   display: flex;
   justify-content: center;
@@ -15,129 +14,209 @@
 }
 
 .review-modal {
-  position: relative;
+  width: min(74rem, 100%);
+  max-height: calc(100dvh - 3rem);
 
-  width: min(1200px, 100%);
-  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
 
-  overflow: auto;
+  overflow: hidden;
 
-  padding: 2rem;
+  border-radius: 1.6rem;
+  padding: 1.2rem;
 
-  border-radius: 36px;
-
-  background: #f4efe6;
-
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.2);
+  background: #fff8ec;
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.34);
 }
 
-.close-button {
-  position: absolute;
+.review-scroll {
+  min-height: 0;
+  overflow-y: auto;
 
-  top: 1.5rem;
-  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
 
-  width: 56px;
-  height: 56px;
+  gap: 1rem;
 
-  border: none;
-  border-radius: 50%;
+  padding-right: 0.25rem;
+}
 
-  background: #1f1915;
-  color: white;
+.review-panel {
+  display: grid;
+  gap: 1.5rem;
 
-  font-size: 2rem;
-  line-height: 1;
+  padding: 1rem;
 
-  cursor: pointer;
+  border: 1px solid rgba(36, 31, 27, 0.1);
+  border-radius: 1.25rem;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  box-shadow: 0 1rem 3rem rgba(36, 31, 27, 0.08);
 }
 
 .review-header {
-  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 
-  .eyebrow {
-    margin: 0 0 0.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
 
-    color: #8a7d70;
+.review-title {
+  display: flex;
+  flex-direction: column;
 
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-
-    font-size: 0.8rem;
-    font-weight: 700;
-  }
+  gap: 0.25rem;
 
   h1 {
     margin: 0;
 
-    font-size: 4rem;
-    line-height: 1;
+    font-size: 2.2rem;
+    letter-spacing: -0.05em;
   }
 
-  .part {
-    margin-top: 0.5rem;
+  p {
+    margin: 0;
+    color: #7c7167;
+    font-weight: 800;
+  }
+}
 
-    color: #7f7468;
+.eyebrow {
+  margin: 0 0 0.35rem;
 
-    font-size: 1.2rem;
-    font-weight: 700;
+  color: #9a6a16;
+
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.close-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+
+  width: 2.4rem;
+  height: 2.4rem;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #241f1b;
+
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+
+    position: absolute;
+
+    width: 1rem;
+    height: 0.15rem;
+
+    border-radius: 999px;
+
+    background: #fff8ec;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &:hover {
+    background: #3a332c;
   }
 }
 
 .video-section {
-  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .review-video {
   width: 100%;
 
-  border-radius: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.review-video video {
+  max-width: 100%;
+  max-height: 70vh;
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  border-radius: 1.5rem;
 
   background: black;
 }
 
 .missing-video {
+  width: 100%;
+
   padding: 4rem;
 
-  border-radius: 24px;
-
-  text-align: center;
+  border-radius: 1.5rem;
 
   background: rgba(0, 0, 0, 0.05);
 
-  color: #7f7468;
+  text-align: center;
 
-  font-weight: 600;
+  color: #7f7468;
+  font-weight: 700;
 }
 
 .comment-section {
-  display: flex;
-  flex-direction: column;
-
+  display: grid;
   gap: 0.75rem;
 
-  margin-bottom: 2rem;
-
   label {
-    font-size: 1.2rem;
-    font-weight: 700;
+    color: #241f1b;
+
+    font-size: 1.1rem;
+    font-weight: 800;
   }
 
   textarea {
-    width: 100%;
-    min-height: 180px;
-
-    padding: 1.25rem;
-
-    border-radius: 24px;
-    border: 2px solid rgba(0, 0, 0, 0.08);
+    min-height: 140px;
 
     resize: vertical;
 
+    padding: 1rem 1.1rem;
+
+    border: 1px solid rgba(36, 31, 27, 0.14);
+    border-radius: 1rem;
+
+    background: rgba(255, 255, 255, 0.92);
+
     font: inherit;
 
-    background: white;
+    outline: none;
+
+    &:focus {
+      border-color: #a67c1a;
+      box-shadow: 0 0 0 0.2rem rgba(236, 184, 70, 0.22);
+    }
   }
 }
 
@@ -155,21 +234,21 @@
   border-radius: 999px;
 
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 800;
 
   cursor: pointer;
 
   transition:
-    transform 0.15s ease,
-    opacity 0.15s ease;
+    transform 120ms ease,
+    opacity 120ms ease;
 }
 
 .actions button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .actions button:disabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
@@ -179,14 +258,13 @@
 }
 
 .approve-button {
-  background: #1f1915;
-  color: white;
+  background: #241f1b;
+  color: #fff8ec;
 }
 
 .error {
-  margin-top: 1rem;
+  margin: 0;
 
   color: #a14a3d;
-
-  font-weight: 700;
+  font-weight: 800;
 }

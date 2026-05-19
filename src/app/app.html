@@ -54,4 +54,14 @@
   </section>
 </main>
 
-<app-card-modal></app-card-modal>
+<ng-container *ngIf="cardModal.selectedCard() as selectedCard">
+  <!-- REVIEW MODAL -->
+  <app-review-modal
+    *ngIf="cardModal.isReviewCard(selectedCard)"
+    [card]="selectedCard"
+    (close)="cardModal.close()"
+  ></app-review-modal>
+
+  <!-- STANDARD CARD MODAL -->
+  <app-card-modal *ngIf="!cardModal.isReviewCard(selectedCard)"></app-card-modal>
+</ng-container>

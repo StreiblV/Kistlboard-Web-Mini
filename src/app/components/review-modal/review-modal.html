@@ -1,92 +1,103 @@
 <div class="review-overlay">
+
   <div class="review-modal">
 
-    <button
-      class="close-button"
-      (click)="close.emit()"
-    >
-      ×
-    </button>
-
     <div class="review-header">
-      <p class="eyebrow">
-        Review
-      </p>
 
-      <h1>
-        {{ card.name }}
-      </h1>
+      <div class="review-title">
+        <p class="eyebrow">Review</p>
 
-      <p
-        *ngIf="card.part"
-        class="part"
+        <h1>{{ card.name }}</h1>
+
+        <p *ngIf="card.part">
+          Part {{ card.part }}
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="cardModal.close()"
       >
-        Part {{ card.part }}
-      </p>
+        ×
+      </button>
+
     </div>
 
-    <div class="video-section">
+    <div class="review-scroll">
 
-      <video
-        *ngIf="getVideoUrl()"
-        controls
-        autoplay
-        class="review-video"
-      >
-        <source
-          [src]="getVideoUrl()!"
-          type="video/mp4"
-        />
-      </video>
+      <div class="review-panel">
 
-      <div
-        *ngIf="!getVideoUrl()"
-        class="missing-video"
-      >
-        Kein Final Review Video ausgewählt.
+        <div class="video-section">
+
+          <div
+            *ngIf="reviewVideoUrl(); else noVideo"
+            class="review-video"
+          >
+            <video
+              controls
+              playsinline
+              preload="metadata"
+            >
+              <source
+                [src]="reviewVideoUrl()!"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+
+          <ng-template #noVideo>
+            <div class="missing-video">
+              Kein Review-Video verknüpft.
+            </div>
+          </ng-template>
+
+        </div>
+
+        <div class="comment-section">
+
+          <label for="review-comment">
+            Review-Kommentar
+          </label>
+
+          <textarea
+            id="review-comment"
+            rows="6"
+            [(ngModel)]="reviewComment"
+          ></textarea>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            type="button"
+            class="decline-button"
+            [disabled]="loading()"
+            (click)="decline()"
+          >
+            Decline
+          </button>
+
+          <button
+            type="button"
+            class="approve-button"
+            [disabled]="loading()"
+            (click)="approve()"
+          >
+            Approve
+          </button>
+
+        </div>
+
+        <p *ngIf="error()" class="error">
+          {{ error() }}
+        </p>
+
       </div>
 
     </div>
 
-    <div class="comment-section">
-
-      <label>
-        Review-Kommentar
-      </label>
-
-      <textarea
-        rows="7"
-        [(ngModel)]="card.review.comment"
-        placeholder="Feedback, Änderungswünsche oder Freigabe-Kommentar..."
-      ></textarea>
-
-    </div>
-
-    <div class="actions">
-
-      <button
-        class="decline-button"
-        [disabled]="!canDecline()"
-        (click)="decline()"
-      >
-        Decline
-      </button>
-
-      <button
-        class="approve-button"
-        (click)="approve()"
-      >
-        Approve
-      </button>
-
-    </div>
-
-    <p
-      *ngIf="cardModal.error()"
-      class="error"
-    >
-      {{ cardModal.error() }}
-    </p>
-
   </div>
+
 </div>
