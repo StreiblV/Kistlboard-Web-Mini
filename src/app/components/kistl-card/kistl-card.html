@@ -1,0 +1,25 @@
+<article class="kistl-card" (click)="open()">
+  <div class="card-topline">
+    <strong>{{ card.name }}</strong>
+
+    <span class="status-pill">
+      {{ workflow.statusLabel }}
+    </span>
+  </div>
+
+  <div class="card-meta">
+    <p>
+      <span>Geplantes Posting:</span>
+      {{ formatShortDate(card.plannedPostingDate) }}
+    </p>
+
+    <p *ngIf="card.part">
+      <span>Part:</span>
+      {{ card.part }}
+    </p>
+  </div>
+
+  <p *ngIf="card.review.status === 'declined'" class="declined-note">
+    Änderungen nötig
+  </p>
+</article>

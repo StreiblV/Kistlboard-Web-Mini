@@ -1,0 +1,218 @@
+<div
+  *ngIf="cardModal.selectedCard() as selectedCard"
+  class="modal-backdrop"
+  (click)="cardModal.close()"
+>
+  <article class="modal" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <div>
+        <p class="eyebrow">Kistlkarte</p>
+        <h2>{{ selectedCard.name }}</h2>
+        <p>{{ getWorkflow(selectedCard).statusLabel }}</p>
+      </div>
+
+      <button type="button" class="icon-button" (click)="cardModal.close()">×</button>
+    </header>
+
+    <p *ngIf="cardModal.error()" class="modal-error">
+      {{ cardModal.error() }}
+    </p>
+
+    <section class="modal-layout">
+      <div class="details-panel">
+        <h3>Details</h3>
+
+        <label>
+          Name
+          <input [(ngModel)]="selectedCard.name" name="selectedName" />
+        </label>
+
+        <label>
+          Part
+          <input [(ngModel)]="selectedCard.part" name="selectedPart" />
+        </label>
+
+        <label>
+          Geplantes Posting
+          <input
+            type="date"
+            [(ngModel)]="selectedCard.plannedPostingDate"
+            name="selectedPlannedPostingDate"
+          />
+        </label>
+
+        <label>
+          Emoji-Hints
+          <input [(ngModel)]="selectedCard.emojiHints" name="selectedEmojiHints" />
+        </label>
+
+        <label>
+          GIF-Wunsch
+          <input [(ngModel)]="selectedCard.gifWish" name="selectedGifWish" />
+        </label>
+
+        <label>
+          Textwünsche / Änderungen
+          <textarea
+            rows="6"
+            [(ngModel)]="selectedCard.textWishes"
+            name="selectedTextWishes"
+          ></textarea>
+        </label>
+
+        <label
+            *ngIf="cardModal.showReviewComments(selectedCard)"
+            class="field"
+            >
+            <span>Review-Kommentare</span>
+
+            <textarea
+                rows="5"
+                [(ngModel)]="selectedCard.review.comment"
+            ></textarea>
+        </label>
+
+        <label 
+            *ngIf="cardModal.showCaption(selectedCard)"
+            class="field">
+            <span>Caption</span>
+            <textarea
+                rows="6"
+                [(ngModel)]="selectedCard.caption"
+            ></textarea>
+        </label>
+
+        <div class="button-row">
+          <button
+            type="button"
+            class="primary-button"
+            (click)="cardModal.saveSelectedCard()"
+            [disabled]="cardModal.saving()"
+          >
+            {{ cardModal.saving() ? 'Speichert...' : 'Details speichern' }}
+          </button>
+
+          <button
+            *ngIf="cardModal.isPlanningCard(selectedCard); else previousStepButton"
+            type="button"
+            class="secondary-button"
+            (click)="cardModal.startWorkflow(selectedCard)"
+            [disabled]="cardModal.saving()"
+            >
+            Start Workflow
+          </button>
+
+          <ng-template #previousStepButton>
+            <button
+                type="button"
+                class="secondary-button"
+                (click)="cardModal.moveSelectedCardToPreviousStep()"
+                [disabled]="cardModal.saving()"
+            >
+                Zum vorherigen Step
+            </button>
+          </ng-template>
+
+          <button
+            type="button"
+            class="muted-button"
+            (click)="cardModal.archiveSelectedCard()"
+            [disabled]="cardModal.saving()"
+          >
+            Archivieren
+          </button>
+        </div>
+      </div>
+
+      <aside class="checklist-panel">
+        <h3>Checklist</h3>
+
+        <ng-container *ngIf="cardModal.hasVisibleChecklist(selectedCard); else noChecklist">
+          <div
+            *ngFor="let group of cardModal.getVisibleChecklistGroups(selectedCard)"
+            class="checklist-group"
+          >
+            <h4>{{ group.title }}</h4>
+
+            <label *ngFor="let item of group.items" class="checkbox-row">
+              <input
+                type="checkbox"
+                [checked]="cardModal.isChecklistChecked(selectedCard, item.key)"
+                (change)="cardModal.toggleChecklistItem(selectedCard, item.key, $event)"
+              />
+              <span>{{ item.label }}</span>
+            </label>
+          </div>
+        </ng-container>
+
+        <ng-template #noChecklist>
+          <p class="empty">
+            Für diese Spalte gibt es keine aktive Checklist.
+          </p>
+        </ng-template>
+      </aside>
+
+      <section class="assets-panel">
+        <div class="assets-header">
+          <div>
+            <h3>Zugehörige Medien / Clips</h3>
+            <p>{{ cardModal.getAssets(selectedCard).length }} Datei(en)</p>
+          </div>
+
+          <div class="asset-upload-actions">
+            <select
+              [ngModel]="cardModal.selectedAssetType()"
+              (ngModelChange)="cardModal.setSelectedAssetType($event)"
+              name="assetType"
+              [disabled]="cardModal.uploading()"
+            >
+              <option
+                *ngFor="let option of cardModal.assetTypeOptions"
+                [value]="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+
+            <label class="upload-button">
+              {{ cardModal.uploading() ? '…' : '+' }}
+              <input
+                type="file"
+                multiple
+                accept="image/*,video/*"
+                (change)="cardModal.uploadMediaFiles(selectedCard, $event)"
+                [disabled]="cardModal.uploading()"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div
+          *ngIf="cardModal.getAssets(selectedCard).length > 0; else noAssets"
+          class="asset-list"
+        >
+          <a
+            *ngFor="let asset of cardModal.getAssets(selectedCard)"
+            class="asset-card"
+            [href]="asset.url"
+            target="_blank"
+            rel="noopener"
+          >
+            <div>
+              <strong>{{ asset.filename || 'Unbenannte Datei' }}</strong>
+              <p>{{ cardModal.getAssetTypeLabel(asset) }}</p>
+            </div>
+
+            <span>{{ cardModal.formatFileSize(asset.filesize) }}</span>
+          </a>
+        </div>
+
+        <ng-template #noAssets>
+          <p class="empty">
+            Noch keine Medien mit dieser Karte verknüpft.
+          </p>
+        </ng-template>
+      </section>
+    </section>
+  </article>
+</div>

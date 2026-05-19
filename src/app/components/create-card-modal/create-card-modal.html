@@ -1,0 +1,102 @@
+<button type="button" class="create-card-button" (click)="open()">
+  + Neue Karte
+</button>
+
+<div
+  *ngIf="isOpen()"
+  class="modal-backdrop"
+  (click)="close()"
+>
+  <article class="modal" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <div>
+        <p class="eyebrow">Neue Kistlkarte</p>
+        <h2>Karte anlegen</h2>
+        <p>Die Karte landet automatisch in Planning.</p>
+      </div>
+
+      <button type="button" class="icon-button" (click)="close()">×</button>
+    </header>
+
+    <p *ngIf="error()" class="modal-error">
+      {{ error() }}
+    </p>
+
+    <form class="create-form" (ngSubmit)="createCard()">
+      <label>
+        Name
+        <input
+          [(ngModel)]="newCard.name"
+          name="name"
+          placeholder="z. B. Caine"
+          required
+        />
+      </label>
+
+      <label>
+        Part
+        <input
+          [(ngModel)]="newCard.part"
+          name="part"
+          placeholder="z. B. 5"
+        />
+      </label>
+
+      <label>
+        Geplantes Posting
+        <input
+          type="date"
+          [(ngModel)]="newCard.plannedPostingDate"
+          name="plannedPostingDate"
+        />
+      </label>
+
+      <label>
+        Emoji-Hints
+        <input
+          [(ngModel)]="newCard.emojiHints"
+          name="emojiHints"
+          placeholder="🎭🎀"
+        />
+      </label>
+
+      <label>
+        GIF-Wunsch
+        <input
+          [(ngModel)]="newCard.gifWish"
+          name="gifWish"
+          placeholder="z. B. trauriges Gesicht zu glücklich"
+        />
+      </label>
+
+      <label>
+        Textwünsche / Änderungen
+        <textarea
+          rows="5"
+          [(ngModel)]="newCard.textWishes"
+          name="textWishes"
+          placeholder="Optionale Wünsche für Text, Caption oder Video..."
+        ></textarea>
+      </label>
+
+      <div class="button-row">
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving()"
+        >
+          {{ saving() ? 'Erstelle...' : 'Karte erstellen' }}
+        </button>
+
+        <button
+          type="button"
+          class="muted-button"
+          (click)="close()"
+          [disabled]="saving()"
+        >
+          Abbrechen
+        </button>
+      </div>
+    </form>
+  </article>
+</div>
