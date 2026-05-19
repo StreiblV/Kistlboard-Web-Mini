@@ -150,6 +150,31 @@
             Für diese Spalte gibt es keine aktive Checklist.
           </p>
         </ng-template>
+
+        <div
+          *ngIf="cardModal.showFinalVideoSelector(selectedCard)"
+          class="final-video-card"
+        >
+          <h3>Final Review Video</h3>
+          <select
+            [ngModel]="cardModal.getSelectedFinalVideoId(selectedCard)"
+            (ngModelChange)="cardModal.setFinalVideo(selectedCard, $event)"
+          >
+            <option [ngValue]="null">
+              Kein Final Video ausgewählt
+            </option>
+
+            <option
+              *ngFor="
+                let media of cardModal.getFinalVideoOptions(selectedCard)
+              "
+              [ngValue]="media.id"
+            >
+              {{ media.filename }}
+            </option>
+          </select>
+        </div>
+
       </aside>
 
       <section class="assets-panel">
