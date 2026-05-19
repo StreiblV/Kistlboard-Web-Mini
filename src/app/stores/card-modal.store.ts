@@ -43,6 +43,11 @@ import {
   getPreviousStepPatch,
 } from '../workflow/kistl-previous-step'
 
+import {
+  approveReviewPatch,
+  declineReviewPatch,
+} from '../workflow/review-actions'
+
 type AssetType = NonNullable<KistlMedia['assetType']>
 
 @Injectable({
@@ -470,21 +475,21 @@ export class CardModalStore {
   }
 
   getSelectedFinalVideoId(
-    card: KistlCard,
-  ): string | number | null {
-    if (!card.finalVideo) {
-      return null
-    }
-
-    if (
-      typeof card.finalVideo === 'string' ||
-      typeof card.finalVideo === 'number'
-    ) {
-      return card.finalVideo
-    }
-
-    return card.finalVideo.id
+  card: KistlCard,
+): string | number | null {
+  if (!card.finalVideo) {
+    return null
   }
+
+  if (
+    typeof card.finalVideo === 'string' ||
+    typeof card.finalVideo === 'number'
+  ) {
+    return card.finalVideo
+  }
+
+  return card.finalVideo.id
+}
 
   setFinalVideo(
     card: KistlCard,
@@ -528,6 +533,102 @@ export class CardModalStore {
       })
   }
 
+  // -------------------------
+  // Review actions
+  // -------------------------
+  approveReview(
+    card: KistlCard,
+  ): void {
+    this.error.set('')
+    this.saving.set(true)
+
+    this.kistlboard
+      .updateCard(
+        card.id,
+        approveReviewPatch(card),
+      )
+      .subscribe({
+        next: (updatedCard) => {
+          this.selectedCard.set(
+            prepareCardForEditing(
+              mergeUpdatedCardWithCurrentAssets(
+                card,
+                updatedCard,
+              ),
+            ),
+          )
+
+          this.saving.set(false)
+
+          this.changed$.next()
+        },
+
+        error: (error) => {
+          console.error(error)
+
+          this.error.set(
+            getErrorMessage(
+              error,
+              'Review konnte nicht approved werden.',
+            ),
+          )
+
+          this.saving.set(false)
+        },
+      })
+  }
+
+  declineReview(
+    card: KistlCard,
+  ): void {
+    if (
+      !card.review?.comment?.trim()
+    ) {
+      this.error.set(
+        'Bitte Review-Kommentar eingeben.',
+      )
+
+      return
+    }
+
+    this.error.set('')
+    this.saving.set(true)
+
+    this.kistlboard
+      .updateCard(
+        card.id,
+        declineReviewPatch(card),
+      )
+      .subscribe({
+        next: (updatedCard) => {
+          this.selectedCard.set(
+            prepareCardForEditing(
+              mergeUpdatedCardWithCurrentAssets(
+                card,
+                updatedCard,
+              ),
+            ),
+          )
+
+          this.saving.set(false)
+
+          this.changed$.next()
+        },
+
+        error: (error) => {
+          console.error(error)
+
+          this.error.set(
+            getErrorMessage(
+              error,
+              'Review konnte nicht declined werden.',
+            ),
+          )
+
+          this.saving.set(false)
+        },
+      })
+  }
 
 
 }

@@ -96,7 +96,7 @@ export interface KistlCard {
   emojiHints?: string
   gifWish?: string
   textWishes?: string
-  finalVideo?: string | number | KistlMedia
+  finalVideo?: string | number | KistlMedia | null
   assets?: PayloadJoinResponse<KistlMedia> | KistlMedia[]
   checklist?: KistlChecklist
   review: KistlReview

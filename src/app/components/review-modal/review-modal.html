@@ -1,0 +1,92 @@
+<div class="review-overlay">
+  <div class="review-modal">
+
+    <button
+      class="close-button"
+      (click)="close.emit()"
+    >
+      ×
+    </button>
+
+    <div class="review-header">
+      <p class="eyebrow">
+        Review
+      </p>
+
+      <h1>
+        {{ card.name }}
+      </h1>
+
+      <p
+        *ngIf="card.part"
+        class="part"
+      >
+        Part {{ card.part }}
+      </p>
+    </div>
+
+    <div class="video-section">
+
+      <video
+        *ngIf="getVideoUrl()"
+        controls
+        autoplay
+        class="review-video"
+      >
+        <source
+          [src]="getVideoUrl()!"
+          type="video/mp4"
+        />
+      </video>
+
+      <div
+        *ngIf="!getVideoUrl()"
+        class="missing-video"
+      >
+        Kein Final Review Video ausgewählt.
+      </div>
+
+    </div>
+
+    <div class="comment-section">
+
+      <label>
+        Review-Kommentar
+      </label>
+
+      <textarea
+        rows="7"
+        [(ngModel)]="card.review.comment"
+        placeholder="Feedback, Änderungswünsche oder Freigabe-Kommentar..."
+      ></textarea>
+
+    </div>
+
+    <div class="actions">
+
+      <button
+        class="decline-button"
+        [disabled]="!canDecline()"
+        (click)="decline()"
+      >
+        Decline
+      </button>
+
+      <button
+        class="approve-button"
+        (click)="approve()"
+      >
+        Approve
+      </button>
+
+    </div>
+
+    <p
+      *ngIf="cardModal.error()"
+      class="error"
+    >
+      {{ cardModal.error() }}
+    </p>
+
+  </div>
+</div>

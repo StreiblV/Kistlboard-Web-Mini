@@ -5,6 +5,15 @@ import {
   ChecklistGroup,
 } from './kistlchecklist.config'
 
+export const isReviewCard = (
+  card: KistlCard,
+): boolean => {
+  return (
+    calculateWorkflow(card).column ===
+    'review'
+  )
+}
+
 export const getVisibleChecklistGroups = (
   card: KistlCard,
 ): ChecklistGroup[] => {
