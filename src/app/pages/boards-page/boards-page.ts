@@ -7,6 +7,7 @@ import {
 
 import { CommonModule } from '@angular/common'
 import { Router } from '@angular/router'
+import { Title } from '@angular/platform-browser'
 
 import { AuthService } from '../../auth/auth.service'
 import { Board } from '../../models/kistlboard.models'
@@ -32,6 +33,7 @@ implements OnInit {
     public readonly auth: AuthService,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
+    private readonly title: Title,
 
     private readonly kistlboard: KistlboardService,
   ) {}
@@ -45,6 +47,7 @@ implements OnInit {
           )
           return
         }
+        this.title.setTitle(`Kistlboard`)
 
         this.kistlboard.getBoards().subscribe({
           next: (boards) => {

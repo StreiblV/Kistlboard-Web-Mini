@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { FormsModule } from '@angular/forms'
+import { Title } from '@angular/platform-browser'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 
 import { AuthService } from '../../auth/auth.service'
@@ -102,6 +103,7 @@ export class BoardPageComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly kistlboard: KistlboardService,
     private readonly cdr: ChangeDetectorRef,
+    private readonly title: Title,
 
     public readonly auth: AuthService,
     public readonly cardModal: CardModalStore,
@@ -138,6 +140,9 @@ export class BoardPageComponent implements OnInit {
                 return
               }
               this.currentBoardId = board.id
+              this.title.setTitle(
+                `${board.name} | Kistlboard`,
+              )
               this.loadCards()
             },
 
