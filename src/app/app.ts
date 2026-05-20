@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common'
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 
+import { Router } from '@angular/router'
+import { AuthService } from './auth/auth.service'
+
 import { CalculatedWorkflow, KistlCard, KistlColumn } from './models/kistlboard.models'
 import { KistlboardService } from './services/kistlboard.service'
 import { calculateWorkflow } from './workflow/kistlworkflow'
@@ -77,16 +80,38 @@ export class AppComponent implements OnInit {
   ]
 
   constructor(
+    private readonly router: Router,
+    private readonly auth: AuthService,
+
     private readonly kistlboard: KistlboardService,
     private readonly cdr: ChangeDetectorRef,
     public readonly cardModal: CardModalStore,
   ) {}
 
   ngOnInit(): void {
-    this.cardModal.changed$.subscribe(() => {
-      this.loadCards()
+
+    // authentication
+    this.auth.fetchCurrentUser().subscribe({
+      next: (response) => {
+
+        // not logged in
+        if (!response.user) {
+          this.router.navigateByUrl('/login')
+          return
+        }
+
+        // logged in, load cards and subscribe to card changes
+        this.cardModal.changed$.subscribe(() => {
+          this.loadCards()
+        })
+
+        this.loadCards()
+      },
+
+      error: () => {
+        this.router.navigateByUrl('/login')
+      },
     })
-    this.loadCards()
   }
 
   loadCards(): void {

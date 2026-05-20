@@ -1,0 +1,70 @@
+<div class="login-page">
+
+  <div class="login-card">
+
+    <div class="login-header">
+      <p class="eyebrow">
+        Content Production Board
+      </p>
+
+      <h1>
+        Kistlboard
+      </h1>
+
+      <p class="subtitle">
+        Bitte einloggen.
+      </p>
+    </div>
+
+    <form
+      class="login-form"
+      (ngSubmit)="login()"
+    >
+
+      <label>
+        Email
+
+        <input
+          type="email"
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          name="email"
+          autocomplete="email"
+          required
+        />
+      </label>
+
+      <label>
+        Passwort
+
+        <input
+          type="password"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          name="password"
+          autocomplete="current-password"
+          required
+        />
+      </label>
+
+      <p
+        *ngIf="error()"
+        class="error"
+      >
+        {{ error() }}
+      </p>
+
+      <button
+        type="submit"
+        [disabled]="auth.loading()"
+      >
+        {{
+          auth.loading()
+            ? 'Einloggen...'
+            : 'Einloggen'
+        }}
+      </button>
+
+    </form>
+  </div>
+</div>
