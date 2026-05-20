@@ -1,3 +1,10 @@
+export interface Board {
+  id: string | number
+  name: string
+  slug: string
+  description?: string
+}
+
 export type KistlColumn =
   | 'planning'
   | 'drawing'
@@ -91,6 +98,7 @@ export interface KistlMedia {
 export interface KistlCard {
   id: string | number
   name: string
+  board?: string | number | Board | null
   plannedPostingDate?: string
   part?: string
   emojiHints?: string

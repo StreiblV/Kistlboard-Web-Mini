@@ -19,7 +19,7 @@ const workflowStatusLabels: Record<WorkflowStatus, string> = {
   archived: 'Archived',
 }
 
-const isPastOrToday = (date?: string): boolean => {
+const isDateAfterToday = (date?: string): boolean => {
   if (!date) {
     return false
   }
@@ -30,7 +30,7 @@ const isPastOrToday = (date?: string): boolean => {
   const target = new Date(date)
   target.setHours(0, 0, 0, 0)
 
-  return target <= today
+  return target < today
 }
 
 const hasFinalReviewVideo = (card: KistlCard): boolean => {
@@ -60,7 +60,7 @@ export const calculateWorkflow = (card: KistlCard): CalculatedWorkflow => {
 
   if (
     checklist.published ||
-    (checklist.scheduledPost && isPastOrToday(card.plannedPostingDate))
+    (checklist.scheduledPost && isDateAfterToday(card.plannedPostingDate))
   ) {
     return result('done', 'done')
   }

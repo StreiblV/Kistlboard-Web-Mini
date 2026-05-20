@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, EventEmitter, Output, signal } from '@angular/core'
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 
 import { KistlboardService } from '../../services/kistlboard.service'
@@ -12,6 +12,7 @@ import { KistlCard } from '../../models/kistlboard.models'
   styleUrl: './create-card-modal.scss',
 })
 export class CreateCardModalComponent {
+  @Input() boardId:string | number | null = null
   @Output() cardCreated = new EventEmitter<KistlCard>()
 
   isOpen = signal(false)
@@ -43,7 +44,10 @@ export class CreateCardModalComponent {
     this.error.set('')
     this.saving.set(true)
 
-    this.kistlboard.createCard(this.newCard).subscribe({
+    this.kistlboard.createCard({
+      ...this.newCard,
+      board: this.boardId,
+    }).subscribe({
       next: (createdCard) => {
         this.cardCreated.emit(createdCard)
         this.saving.set(false)

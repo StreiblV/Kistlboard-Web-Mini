@@ -1,0 +1,283 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #241f1b;
+  background:
+    radial-gradient(circle at top left, rgba(236, 184, 70, 0.22), transparent 34rem),
+    linear-gradient(135deg, #fff8ec 0%, #f4eddf 100%);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.auth-loading {
+  min-height: 100dvh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #6f655b;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.back-to-boards {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 0.35rem;
+
+  margin-bottom: 1rem;
+
+  color: #7c7167;
+
+  text-decoration: none;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  transition:
+    color 120ms ease,
+    transform 120ms ease;
+
+  &:hover {
+    color: #241f1b;
+
+    transform: translateX(-2px);
+  }
+}
+
+.app-shell {
+  padding: 2rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 2rem;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: -0.08em;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 0.65rem;
+  color: #9a6a16;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.hero-text {
+  margin: 1rem 0 0;
+  color: #5d534b;
+  font-size: 1.1rem;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stats-card {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 10rem;
+  padding: 1rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 1rem 3rem rgba(36, 31, 27, 0.08);
+
+  strong {
+    font-size: 2.2rem;
+    line-height: 1;
+  }
+
+  span {
+    color: #776b61;
+    font-weight: 700;
+  }
+}
+
+.info,
+.error {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: white;
+  font-weight: 700;
+}
+
+.error {
+  color: #8a1f1f;
+  background: #ffe1e1;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(17rem, 1fr));
+  gap: 1rem;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+}
+
+.column {
+  min-height: 65vh;
+  padding: 0.85rem;
+  border: 1px solid rgba(36, 31, 27, 0.08);
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(10px);
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0.2rem 0 0;
+    color: #7d7168;
+    font-size: 0.78rem;
+  }
+
+  span {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #241f1b;
+    color: #fff8ec;
+    font-weight: 900;
+  }
+}
+
+.card-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.kistl-card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  border-radius: 1rem;
+  background: #fffdf8;
+  box-shadow: 0 0.7rem 1.8rem rgba(36, 31, 27, 0.08);
+}
+
+.card-topline {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  strong {
+    font-size: 1.05rem;
+  }
+
+  small {
+    color: #7d7168;
+    white-space: nowrap;
+    font-weight: 800;
+  }
+}
+
+.date {
+  margin: 0;
+  color: #6d6258;
+  font-size: 0.86rem;
+}
+
+.emoji {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.declined-note {
+  width: fit-content;
+  margin: 0;
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  background: #ffe1e1;
+  color: #8a1f1f;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.empty {
+  margin: 0;
+  padding: 0.7rem;
+  color: #92877f;
+  font-size: 0.86rem;
+}
+
+.card-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+
+  strong {
+    font-size: 1.05rem;
+  }
+}
+
+.status-pill {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 0.22rem 0.55rem;
+  background: rgba(36, 31, 27, 0.08);
+  color: #6d6258;
+  font-size: 0.72rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.card-meta {
+  display: grid;
+  gap: 0.2rem;
+
+  p {
+    margin: 0;
+    color: #6d6258;
+    font-size: 0.86rem;
+  }
+
+  span {
+    font-weight: 800;
+    color: #241f1b;
+  }
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    padding: 1rem;
+  }
+
+  .hero {
+    display: grid;
+  }
+
+  .hero-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

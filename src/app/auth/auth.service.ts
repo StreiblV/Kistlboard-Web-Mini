@@ -14,14 +14,9 @@ import {
 })
 export class AuthService {
 
-  readonly currentUser =
-    signal<AuthUser | null>(null)
-
-  readonly loading =
-    signal(false)
-
-  readonly initialized =
-    signal(false)
+  readonly currentUser = signal<AuthUser | null>(null)
+  readonly loading = signal(false)
+  readonly initialized = signal(false)
 
   constructor(
     private readonly http: HttpClient,
@@ -83,27 +78,34 @@ export class AuthService {
   // Current User
   // -------------------------
 
-  fetchCurrentUser(): Observable<{
-    user: AuthUser | null
-  }> {
-
+  fetchCurrentUser(): Observable<{user: AuthUser | null}> {
     return this.http.get<{
-      user: AuthUser | null
+        user: AuthUser | null
     }>(
-      '/api/users/me',
-      {
+        '/api/users/me',
+        {
         withCredentials: true,
-      },
+        },
     ).pipe(
-      tap((response) => {
-        this.currentUser.set(
-          response.user,
-        )
+        tap({
+        next: (response) => {
 
-        this.initialized.set(true)
-      }),
+            this.currentUser.set(
+            response.user,
+            )
+
+            this.initialized.set(true)
+        },
+
+        error: () => {
+
+            this.currentUser.set(null)
+
+            this.initialized.set(true)
+        },
+        }),
     )
-  }
+    }
 
   // -------------------------
   // Helpers

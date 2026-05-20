@@ -1,0 +1,215 @@
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+
+  color: #5c5147;
+
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  box-sizing: border-box;
+
+  border: 1px solid rgba(36, 31, 27, 0.14);
+  border-radius: 0.85rem;
+
+  padding: 0.7rem 0.8rem;
+
+  background: rgba(255, 255, 255, 0.92);
+  color: #241f1b;
+
+  outline: none;
+
+  &:focus {
+    border-color: #a67c1a;
+
+    box-shadow:
+      0 0 0 0.2rem rgba(236, 184, 70, 0.22);
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+.modal-backdrop,
+.review-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  padding: 1.5rem;
+
+  background: rgba(36, 31, 27, 0.5);
+
+  backdrop-filter: blur(10px);
+
+  z-index: 1000;
+}
+
+.modal,
+.review-modal {
+  width: min(74rem, 100%);
+  max-height: calc(100dvh - 3rem);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border-radius: 1.6rem;
+  padding: 1.2rem;
+
+  background: #fff8ec;
+
+  box-shadow:
+    0 2rem 5rem rgba(0, 0, 0, 0.34);
+}
+
+.modal-header,
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h1,
+  h2 {
+    margin: 0;
+
+    font-size: 2.2rem;
+    letter-spacing: -0.05em;
+  }
+
+  p {
+    margin: 0.2rem 0 0;
+
+    color: #7c7167;
+    font-weight: 800;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+
+  color: #9a6a16;
+
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.icon-button,
+.close-button {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 2.4rem;
+  height: 2.4rem;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #241f1b;
+
+  color: transparent;
+  font-size: 0;
+  line-height: 0;
+
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    content: "";
+
+    position: absolute;
+
+    width: 1rem;
+    height: 0.15rem;
+
+    border-radius: 999px;
+
+    background: #fff8ec;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &:hover {
+    background: #3a332c;
+  }
+}
+
+.modal-error,
+.error {
+  margin: 0 0 1rem;
+
+  padding: 0.8rem 1rem;
+
+  border-radius: 0.9rem;
+
+  background: #ffe1e1;
+  color: #8a1f1f;
+
+  font-weight: 800;
+}
+
+.primary-button,
+.secondary-button,
+.muted-button {
+  border: 0;
+  border-radius: 999px;
+
+  padding: 0.7rem 1rem;
+
+  color: #fff8ec;
+  font-weight: 900;
+}
+
+.primary-button {
+  background: #241f1b;
+}
+
+.secondary-button {
+  background: #9a6a16;
+}
+
+.muted-button {
+  background: #6b6258;
+}

@@ -1,0 +1,71 @@
+@if (!auth.initialized()) {
+
+  <div class="auth-loading">
+    Lade Session...
+  </div>
+
+} @else {
+
+  <main class="boards-page">
+
+    <header class="boards-header">
+
+      <div>
+        <p class="eyebrow">
+          Kistlboard
+        </p>
+
+        <h1>
+          Boards
+        </h1>
+
+        <p class="subtitle">
+          Wähle ein Board.
+        </p>
+      </div>
+
+    </header>
+
+    @if (loading) {
+
+      <div class="auth-loading">
+        Lade Boards...
+      </div>
+
+    } @else {
+
+      <section class="boards-grid">
+
+        @for (
+          board of boards;
+          track board.id
+        ) {
+
+          <button
+            class="board-card"
+            (click)="openBoard(board)"
+          >
+
+            <h2>
+              {{ board.name }}
+            </h2>
+
+            @if (board.description) {
+
+              <p>
+                {{ board.description }}
+              </p>
+
+            }
+
+          </button>
+
+        }
+
+      </section>
+
+    }
+
+  </main>
+
+}

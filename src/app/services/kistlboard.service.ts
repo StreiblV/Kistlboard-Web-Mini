@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { map, Observable, throwError } from 'rxjs'
 
+import { Board } from '../models/kistlboard.models'
+
 import {
   KistlCard,
   KistlMedia,
@@ -24,14 +26,61 @@ export class KistlboardService {
 
   constructor(private readonly http: HttpClient) {}
 
-  getCards(): Observable<KistlCard[]> {
+  getBoards(): Observable<Board[]> {
     return this.http
-      .get<PayloadListResponse<KistlCard>>(
-        `${this.cardsApi}?depth=2&limit=100&sort=plannedPostingDate`,
-        { withCredentials: true },
+      .get<PayloadListResponse<Board>>(
+        '/api/boards?limit=100',
+        {
+          withCredentials: true,
+        },
       )
       .pipe(
-        map((response) => response.docs.filter((card) => !card.archived)),
+        map((response) => response.docs),
+      )
+  }
+
+    getBoardBySlug(
+    slug: string,
+  ): Observable<Board | null> {
+
+    return this.http
+      .get<PayloadListResponse<Board>>(
+        `/api/boards?where[slug][equals]=${slug}&limit=1`,
+        {
+          withCredentials: true,
+        },
+      )
+      .pipe(
+        map((response) => {
+
+          if (
+            response.docs.length === 0
+          ) {
+            return null
+          }
+
+          return response.docs[0]
+        }),
+      )
+  }
+
+  getCards(
+    boardSlug: string,
+  ): Observable<KistlCard[]> {
+
+    return this.http
+      .get<PayloadListResponse<KistlCard>>(
+        `${this.cardsApi}?depth=2&limit=100&sort=plannedPostingDate&where[board.slug][equals]=${boardSlug}`,
+        {
+          withCredentials: true,
+        },
+      )
+      .pipe(
+        map((response) =>
+          response.docs.filter(
+            (card) => !card.archived,
+          ),
+        ),
       )
   }
 
@@ -41,6 +90,7 @@ export class KistlboardService {
         `${this.cardsApi}?depth=2`,
         {
             name: card.name,
+            board: card.board,
             part: card.part || '',
             plannedPostingDate: card.plannedPostingDate || undefined,
             emojiHints: card.emojiHints || '',
