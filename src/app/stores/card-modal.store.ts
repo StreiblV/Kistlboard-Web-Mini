@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core'
-import { Subject, forkJoin } from 'rxjs'
+import { Subject, map, merge } from 'rxjs'
 
 import { KistlboardService } from '../services/kistlboard.service'
 
@@ -45,6 +45,8 @@ export class CardModalStore {
   readonly error = signal('')
   readonly saving = signal(false)
   readonly uploading = signal(false)
+  readonly uploadProgress = signal(0)
+  readonly uploadStatus = signal('')
 
   readonly selectedAssetType = signal<AssetType>('other')
 
@@ -107,7 +109,7 @@ export class CardModalStore {
   open(card: KistlCard): void {
     this.error.set('')
     this.saving.set(false)
-    this.uploading.set(false)
+    this.resetUploadState()
 
     this.selectedAssetType.set('other')
 
@@ -117,7 +119,7 @@ export class CardModalStore {
   close(): void {
     this.error.set('')
     this.saving.set(false)
-    this.uploading.set(false)
+    this.resetUploadState()
 
     this.selectedCard.set(null)
   }
@@ -313,11 +315,40 @@ export class CardModalStore {
 
     this.error.set('')
     this.uploading.set(true)
+    this.uploadProgress.set(0)
+    this.uploadStatus.set(`${files.length} Datei(en) werden hochgeladen...`)
 
-    forkJoin(
-      files.map((file) => this.kistlboard.uploadMedia(card.id, file, this.selectedAssetType())),
+    const uploadProgressByFile = files.map(() => 0)
+    const uploadedMedia: KistlMedia[] = []
+    const selectedAssetType = this.selectedAssetType()
+
+    merge(
+      ...files.map((file, index) => {
+        return this.kistlboard.uploadMediaWithProgress(card.id, file, selectedAssetType).pipe(
+          map((uploadEvent) => ({
+            fileIndex: index,
+            uploadEvent,
+          })),
+        )
+      }),
     ).subscribe({
-      next: (uploadedMedia) => {
+      next: ({ fileIndex, uploadEvent }) => {
+        if (uploadEvent.type === 'progress') {
+          uploadProgressByFile[fileIndex] = uploadEvent.progress
+          this.updateUploadProgress(uploadProgressByFile)
+
+          return
+        }
+
+        uploadedMedia.push(uploadEvent.media)
+        uploadProgressByFile[fileIndex] = 100
+        this.updateUploadProgress(uploadProgressByFile)
+        this.uploadStatus.set(
+          `${uploadedMedia.length} von ${files.length} Datei(en) hochgeladen...`,
+        )
+      },
+
+      complete: () => {
         const currentCard = this.selectedCard()
 
         if (currentCard) {
@@ -337,10 +368,24 @@ export class CardModalStore {
         this.error.set(getErrorMessage(error, 'Medien konnten nicht hochgeladen werden.'))
 
         this.uploading.set(false)
+        this.uploadStatus.set('')
+        this.uploadProgress.set(0)
 
         input.value = ''
       },
     })
+  }
+
+  private updateUploadProgress(uploadProgressByFile: number[]): void {
+    const totalProgress = uploadProgressByFile.reduce((sum, progress) => sum + progress, 0)
+
+    this.uploadProgress.set(Math.round(totalProgress / uploadProgressByFile.length))
+  }
+
+  private resetUploadState(): void {
+    this.uploading.set(false)
+    this.uploadProgress.set(0)
+    this.uploadStatus.set('')
   }
 
   // -------------------------

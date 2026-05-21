@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { map, Observable, throwError } from 'rxjs'
+import { HttpClient, HttpEventType } from '@angular/common/http'
+import { filter, map, Observable, throwError } from 'rxjs'
 
 import { Board } from '../models/kistlboard.models'
 
@@ -10,6 +10,16 @@ interface PayloadMutationResponse<T> {
   doc: T
   message?: string
 }
+
+export type MediaUploadEvent =
+  | {
+      type: 'progress'
+      progress: number
+    }
+  | {
+      type: 'complete'
+      media: KistlMedia
+    }
 
 @Injectable({
   providedIn: 'root',
@@ -140,6 +150,19 @@ export class KistlboardService {
     file: File,
     assetType: NonNullable<KistlMedia['assetType']> = 'other',
   ): Observable<KistlMedia> {
+    return this.uploadMediaWithProgress(cardId, file, assetType).pipe(
+      filter((event): event is Extract<MediaUploadEvent, { type: 'complete' }> => {
+        return event.type === 'complete'
+      }),
+      map((event) => event.media),
+    )
+  }
+
+  uploadMediaWithProgress(
+    cardId: string | number,
+    file: File,
+    assetType: NonNullable<KistlMedia['assetType']> = 'other',
+  ): Observable<MediaUploadEvent> {
     if (file.size > this.maxUploadSizeBytes) {
       return throwError(
         () =>
@@ -149,6 +172,51 @@ export class KistlboardService {
       )
     }
 
+    const formData = this.createMediaFormData(cardId, file, assetType)
+
+    return this.http
+      .post<KistlMedia | PayloadMutationResponse<KistlMedia>>(
+        `${this.mediaApi}?depth=2`,
+        formData,
+        {
+          observe: 'events',
+          reportProgress: true,
+          withCredentials: true,
+        },
+      )
+      .pipe(
+        filter((event) => {
+          return (
+            event.type === HttpEventType.UploadProgress || event.type === HttpEventType.Response
+          )
+        }),
+        map((event): MediaUploadEvent => {
+          if (event.type === HttpEventType.UploadProgress) {
+            const total = event.total || file.size
+
+            return {
+              type: 'progress',
+              progress: total > 0 ? Math.min(100, Math.round((event.loaded / total) * 100)) : 0,
+            }
+          }
+
+          if (!event.body) {
+            throw new Error('Upload wurde ohne Server-Antwort abgeschlossen.')
+          }
+
+          return {
+            type: 'complete',
+            media: this.resolveMutationResponse(event.body),
+          }
+        }),
+      )
+  }
+
+  private createMediaFormData(
+    cardId: string | number,
+    file: File,
+    assetType: NonNullable<KistlMedia['assetType']>,
+  ): FormData {
     const formData = new FormData()
 
     formData.append('file', file)
@@ -162,19 +230,15 @@ export class KistlboardService {
       }),
     )
 
-    return this.http
-      .post<
-        KistlMedia | PayloadMutationResponse<KistlMedia>
-      >(`${this.mediaApi}?depth=2`, formData, { withCredentials: true })
-      .pipe(
-        map((response) => {
-          if (this.isPayloadMutationResponse(response)) {
-            return response.doc
-          }
+    return formData
+  }
 
-          return response
-        }),
-      )
+  private resolveMutationResponse<T>(response: T | PayloadMutationResponse<T>): T {
+    if (this.isPayloadMutationResponse(response)) {
+      return response.doc
+    }
+
+    return response
   }
 
   private isPayloadMutationResponse<T>(

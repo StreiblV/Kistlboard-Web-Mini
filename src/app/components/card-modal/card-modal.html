@@ -171,8 +171,15 @@
               </option>
             </select>
 
-            <label class="upload-button">
-              {{ cardModal.uploading() ? '…' : '+' }}
+            <label
+              class="upload-button"
+              [class.is-uploading]="cardModal.uploading()"
+              [attr.title]="cardModal.uploading() ? 'Upload läuft' : 'Medien hochladen'"
+              [attr.aria-label]="cardModal.uploading() ? 'Upload läuft' : 'Medien hochladen'"
+            >
+              <span class="upload-button-label">
+                {{ cardModal.uploading() ? 'Upload läuft' : 'Medien hochladen' }}
+              </span>
               <input
                 type="file"
                 multiple
@@ -183,6 +190,17 @@
             </label>
           </div>
         </div>
+
+        <div *ngIf="cardModal.uploading()" class="upload-status" role="status" aria-live="polite">
+          <div class="upload-status-copy">
+            <span>{{ cardModal.uploadStatus() }}</span>
+            <strong>{{ cardModal.uploadProgress() }}%</strong>
+          </div>
+          <div class="upload-progress-track">
+            <div [style.width.%]="cardModal.uploadProgress()"></div>
+          </div>
+        </div>
+
         <div *ngIf="cardModal.getAssets(selectedCard).length > 0; else noAssets" class="asset-list">
           <div *ngFor="let asset of cardModal.getAssets(selectedCard)" class="asset-card">
             <a class="asset-info" [href]="asset.url" target="_blank" rel="noopener">
