@@ -132,9 +132,12 @@
 }
 
 .asset-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2rem 5.5rem;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
+  flex: 0 0 auto;
+  justify-content: end;
 }
 
 .download-button {
@@ -247,8 +250,22 @@
     transform 120ms ease,
     box-shadow 120ms ease;
 
+  .asset-info {
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:visited {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
   strong {
     display: block;
+    color: #241f1b;
   }
 
   p {
@@ -259,10 +276,11 @@
   }
 
   span {
-    flex: 0 0 auto;
+    justify-self: end;
     color: #7c7167;
     font-size: 0.82rem;
     font-weight: 800;
+    white-space: nowrap;
   }
 
   &:hover {

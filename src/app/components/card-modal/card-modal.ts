@@ -17,10 +17,27 @@ export class CardModalComponent {
 
   getWorkflow = calculateWorkflow
 
-  downloadAsset(asset: KistlMedia, event: MouseEvent): void {
+  async downloadAsset(asset: KistlMedia, event: MouseEvent): Promise<void> {
     event.preventDefault()
     event.stopPropagation()
 
-    window.open(asset.url, '_blank')
+    if (!asset.url) {
+      return
+    }
+
+    const response = await fetch(asset.url)
+    const blob = await response.blob()
+    const objectUrl = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = objectUrl
+    link.download = asset.filename || 'download'
+    link.style.display = 'none'
+
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+
+    URL.revokeObjectURL(objectUrl)
   }
 }
