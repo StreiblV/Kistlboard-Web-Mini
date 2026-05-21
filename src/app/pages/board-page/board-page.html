@@ -19,8 +19,8 @@
     <div class="hero-actions">
       <app-create-card-modal
         (cardCreated)="loadCards()"
-        [boardId]="currentBoardId"
-      ></app-create-card-modal>
+        [boardId]="currentBoardId">
+      </app-create-card-modal>
 
       <div class="stats-card">
         <strong>{{ cards.length }}</strong>
@@ -49,11 +49,11 @@
       </header>
 
       <div class="card-list">
-        <app-kistl-card
+        <app-board-card
           *ngFor="let card of cardsByColumn(column.column)"
           [card]="card"
-          (cardClick)="cardModal.open($event)"
-        ></app-kistl-card>
+          (cardClick)="cardModal.open($event)">
+        </app-board-card>
 
         <p *ngIf="cardsByColumn(column.column).length === 0" class="empty">
           Nichts im Kistl.
@@ -68,10 +68,11 @@
   <app-review-modal
     *ngIf="cardModal.isReviewCard(selectedCard)"
     [card]="selectedCard"
-    (close)="cardModal.close()"
-  ></app-review-modal>
+    (close)="cardModal.close()">
+  </app-review-modal>
 
   <!-- STANDARD CARD MODAL -->
-  <app-card-modal *ngIf="!cardModal.isReviewCard(selectedCard)"></app-card-modal>
+  <app-card-modal *ngIf="!cardModal.isReviewCard(selectedCard)">
+  </app-card-modal>
 </ng-container>
 }

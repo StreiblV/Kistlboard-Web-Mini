@@ -21,7 +21,7 @@ import {
 
 import { CardModalStore } from '../../stores/card-modal.store'
 
-import { KistlCardComponent } from '../../components/kistl-card/kistl-card'
+import { KistlCardComponent } from '../../components/board-card/board-card'
 import { CardModalComponent } from '../../components/card-modal/card-modal'
 import { ReviewModalComponent } from '../../components/review-modal/review-modal'
 import { CreateCardModalComponent } from '../../components/create-card-modal/create-card-modal'
@@ -38,12 +38,11 @@ interface BoardColumn {
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
-
     KistlCardComponent,
+    RouterLink,
     CardModalComponent,
     ReviewModalComponent,
-    CreateCardModalComponent,
+    CreateCardModalComponent
   ],
   templateUrl: './board-page.html',
   styleUrl: './board-page.scss',
@@ -110,10 +109,8 @@ export class BoardPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.auth.fetchCurrentUser().subscribe({
       next: () => {
-
         if (!this.auth.isLoggedIn()) {
           this.router.navigateByUrl('/login')
           return
@@ -124,9 +121,7 @@ export class BoardPageComponent implements OnInit {
         })
 
         this.route.paramMap.subscribe((params) => {
-
           const slug = params.get('slug')
-
           if (!slug) {
             return
           }
@@ -163,7 +158,6 @@ export class BoardPageComponent implements OnInit {
 
     this.loading = true
     this.error = ''
-
     this.cdr.detectChanges()
 
     this.kistlboard

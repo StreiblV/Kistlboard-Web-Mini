@@ -1,6 +1,14 @@
 <article class="kistl-card" (click)="open()">
   <div class="card-topline">
-    <strong>{{ card.name }}</strong>
+
+    <div class="card-title-wrapper">
+      <strong class="card-title">
+        {{ card.name }}
+      </strong>
+      <span class="card-tooltip">
+        {{ card.name }}
+      </span>
+    </div>
 
     <span class="status-pill">
       {{ workflow.statusLabel }}

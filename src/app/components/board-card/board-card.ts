@@ -5,10 +5,10 @@ import { CalculatedWorkflow, KistlCard } from '../../models/kistlboard.models'
 import { calculateWorkflow } from '../../workflow/kistlworkflow'
 
 @Component({
-  selector: 'app-kistl-card',
+  selector: 'app-board-card',
   imports: [CommonModule],
-  templateUrl: './kistl-card.html',
-  styleUrl: './kistl-card.scss',
+  templateUrl: './board-card.html',
+  styleUrl: './board-card.scss',
 })
 export class KistlCardComponent {
   @Input({ required: true }) card!: KistlCard
