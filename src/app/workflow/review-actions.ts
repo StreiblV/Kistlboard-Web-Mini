@@ -1,34 +1,28 @@
 import { KistlCard } from '../models/kistlboard.models'
 
-export const approveReviewPatch = (
-  card: KistlCard,
-): Partial<KistlCard> => {
+export const approveReviewPatch = (card: KistlCard): Partial<KistlCard> => {
   return {
     review: {
       ...(card.review || {}),
       status: 'approved',
-      comment:
-        card.review?.comment || '',
+      comment: card.review?.comment || '',
     },
   }
 }
 
-export const declineReviewPatch = (
-  card: KistlCard,
-): Partial<KistlCard> => {
+export const declineReviewPatch = (card: KistlCard): Partial<KistlCard> => {
   return {
     finalVideo: null,
 
     checklist: {
-    ...(card.checklist || {}),
-    finalVideoUploaded: false,
+      ...(card.checklist || {}),
+      finalVideoUploaded: false,
     },
 
     review: {
       ...(card.review || {}),
       status: 'declined',
-      comment:
-        card.review?.comment || '',
+      comment: card.review?.comment || '',
     },
   }
 }

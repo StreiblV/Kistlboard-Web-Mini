@@ -1,26 +1,14 @@
 <div class="login-page">
-
   <div class="login-card">
-
     <div class="login-header">
-      <p class="eyebrow">
-        Content Production Board
-      </p>
+      <p class="eyebrow">Content Production Board</p>
 
-      <h1>
-        Kistlboard
-      </h1>
+      <h1>Kistlboard</h1>
 
-      <p class="subtitle">
-        Bitte einloggen.
-      </p>
+      <p class="subtitle">Bitte einloggen.</p>
     </div>
 
-    <form
-      class="login-form"
-      (ngSubmit)="login()"
-    >
-
+    <form class="login-form" (ngSubmit)="login()">
       <label>
         Email
 
@@ -47,24 +35,13 @@
         />
       </label>
 
-      <p
-        *ngIf="error()"
-        class="error"
-      >
+      <p *ngIf="error()" class="error">
         {{ error() }}
       </p>
 
-      <button
-        type="submit"
-        [disabled]="auth.loading()"
-      >
-        {{
-          auth.loading()
-            ? 'Einloggen...'
-            : 'Einloggen'
-        }}
+      <button type="submit" [disabled]="auth.loading()">
+        {{ auth.loading() ? 'Einloggen...' : 'Einloggen' }}
       </button>
-
     </form>
   </div>
 </div>

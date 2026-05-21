@@ -3,22 +3,10 @@
   min-height: 100dvh;
 
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(236, 184, 70, 0.22),
-      transparent 34rem
-    ),
-    linear-gradient(
-      135deg,
-      #fff8ec 0%,
-      #f4eddf 100%
-    );
+    radial-gradient(circle at top left, rgba(236, 184, 70, 0.22), transparent 34rem),
+    linear-gradient(135deg, #fff8ec 0%, #f4eddf 100%);
 
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
 .login-page {
@@ -42,18 +30,14 @@
 
   border-radius: 2rem;
 
-  background:
-    rgba(255,255,255,0.72);
+  background: rgba(255, 255, 255, 0.72);
 
-  border:
-    1px solid rgba(0,0,0,0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 
-  box-shadow:
-    0 2rem 5rem rgba(0,0,0,0.12);
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.12);
 }
 
 .login-header {
-
   h1 {
     margin: 0;
 
@@ -104,7 +88,7 @@ input {
   padding: 0 1rem;
 
   border-radius: 18px;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 
   background: white;
 
@@ -114,8 +98,7 @@ input {
 
   &:focus {
     border-color: #a67c1a;
-    box-shadow:
-      0 0 0 0.2rem rgba(236,184,70,0.22);
+    box-shadow: 0 0 0 0.2rem rgba(236, 184, 70, 0.22);
   }
 }
 

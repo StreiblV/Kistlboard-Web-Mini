@@ -1,6 +1,5 @@
 <article class="kistl-card" (click)="open()">
   <div class="card-topline">
-
     <div class="card-title-wrapper">
       <strong class="card-title">
         {{ card.name }}
@@ -27,7 +26,5 @@
     </p>
   </div>
 
-  <p *ngIf="card.review.status === 'declined'" class="declined-note">
-    Änderungen nötig
-  </p>
+  <p *ngIf="card.review.status === 'declined'" class="declined-note">Änderungen nötig</p>
 </article>

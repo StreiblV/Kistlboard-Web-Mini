@@ -47,10 +47,7 @@ export const mergeUpdatedCardWithCurrentAssets = (
   }
 }
 
-export const addAssetsToCard = (
-  card: KistlCard,
-  uploadedMedia: KistlMedia[],
-): KistlCard => {
+export const addAssetsToCard = (card: KistlCard, uploadedMedia: KistlMedia[]): KistlCard => {
   const assets = card.assets
 
   if (Array.isArray(assets)) {

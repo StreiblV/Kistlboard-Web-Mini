@@ -41,9 +41,7 @@ export const calculateWorkflow = (card: KistlCard): CalculatedWorkflow => {
   const checklist = card.checklist || {}
   const review = card.review || {}
 
-  const isScheduledReady =
-    Boolean(checklist.captionWritten) &&
-    Boolean(checklist.scheduledPost)
+  const isScheduledReady = Boolean(checklist.captionWritten) && Boolean(checklist.scheduledPost)
 
   const result = (
     column: CalculatedWorkflow['column'],
@@ -77,10 +75,7 @@ export const calculateWorkflow = (card: KistlCard): CalculatedWorkflow => {
     return result('video-editing', 'need-rework')
   }
 
-  if (
-    checklist.finalVideoUploaded &&
-    hasFinalReviewVideo(card)
-  ) {
+  if (checklist.finalVideoUploaded && hasFinalReviewVideo(card)) {
     return result('review', 'ready-for-review')
   }
 
@@ -96,7 +91,7 @@ export const calculateWorkflow = (card: KistlCard): CalculatedWorkflow => {
     return result('video-editing', 'video-final-touches')
   }
 
-     if (
+  if (
     checklist.drawing &&
     checklist.drawingClips &&
     checklist.revealClipUploaded &&

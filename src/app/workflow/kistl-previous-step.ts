@@ -25,9 +25,7 @@ export const getPreviousStepPatch = (card: KistlCard): PreviousStepResult => {
   const checklist = card.checklist || {}
   const review = card.review || {}
 
-  const isScheduledReady =
-    Boolean(checklist.captionWritten) &&
-    Boolean(checklist.scheduledPost)
+  const isScheduledReady = Boolean(checklist.captionWritten) && Boolean(checklist.scheduledPost)
 
   switch (workflow.column) {
     case 'done':

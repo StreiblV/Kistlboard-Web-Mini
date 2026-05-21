@@ -1,12 +1,6 @@
-<button type="button" class="create-card-button" (click)="open()">
-  + Neue Karte
-</button>
+<button type="button" class="create-card-button" (click)="open()">+ Neue Karte</button>
 
-<div
-  *ngIf="isOpen()"
-  class="modal-backdrop"
-  (click)="close()"
->
+<div *ngIf="isOpen()" class="modal-backdrop" (click)="close()">
   <article class="modal" (click)="$event.stopPropagation()">
     <header class="modal-header">
       <div>
@@ -25,39 +19,22 @@
     <form class="create-form" (ngSubmit)="createCard()">
       <label>
         Name
-        <input
-          [(ngModel)]="newCard.name"
-          name="name"
-          placeholder="z. B. Caine"
-          required
-        />
+        <input [(ngModel)]="newCard.name" name="name" placeholder="z. B. Caine" required />
       </label>
 
       <label>
         Part
-        <input
-          [(ngModel)]="newCard.part"
-          name="part"
-          placeholder="z. B. 5"
-        />
+        <input [(ngModel)]="newCard.part" name="part" placeholder="z. B. 5" />
       </label>
 
       <label>
         Geplantes Posting
-        <input
-          type="date"
-          [(ngModel)]="newCard.plannedPostingDate"
-          name="plannedPostingDate"
-        />
+        <input type="date" [(ngModel)]="newCard.plannedPostingDate" name="plannedPostingDate" />
       </label>
 
       <label>
         Emoji-Hints
-        <input
-          [(ngModel)]="newCard.emojiHints"
-          name="emojiHints"
-          placeholder="🎭🎀"
-        />
+        <input [(ngModel)]="newCard.emojiHints" name="emojiHints" placeholder="🎭🎀" />
       </label>
 
       <label>
@@ -80,20 +57,11 @@
       </label>
 
       <div class="button-row">
-        <button
-          type="submit"
-          class="primary-button"
-          [disabled]="saving()"
-        >
+        <button type="submit" class="primary-button" [disabled]="saving()">
           {{ saving() ? 'Erstelle...' : 'Karte erstellen' }}
         </button>
 
-        <button
-          type="button"
-          class="muted-button"
-          (click)="close()"
-          [disabled]="saving()"
-        >
+        <button type="button" class="muted-button" (click)="close()" [disabled]="saving()">
           Abbrechen
         </button>
       </div>

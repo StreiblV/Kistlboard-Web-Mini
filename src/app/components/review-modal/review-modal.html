@@ -1,103 +1,51 @@
 <div class="review-overlay">
-
   <div class="review-modal">
-
     <div class="review-header">
-
       <div class="review-title">
         <p class="eyebrow">Review</p>
 
         <h1>{{ card.name }}</h1>
 
-        <p *ngIf="card.part">
-          Part {{ card.part }}
-        </p>
+        <p *ngIf="card.part">Part {{ card.part }}</p>
       </div>
 
-      <button
-        type="button"
-        class="close-button"
-        (click)="cardModal.close()"
-      >
-        ×
-      </button>
-
+      <button type="button" class="close-button" (click)="cardModal.close()">×</button>
     </div>
 
     <div class="review-scroll">
-
       <div class="review-panel">
-
         <div class="video-section">
-
-          <div
-            *ngIf="reviewVideoUrl(); else noVideo"
-            class="review-video"
-          >
-            <video
-              controls
-              playsinline
-              preload="metadata"
-            >
-              <source
-                [src]="reviewVideoUrl()!"
-                type="video/mp4"
-              />
+          <div *ngIf="reviewVideoUrl(); else noVideo" class="review-video">
+            <video controls playsinline preload="metadata">
+              <source [src]="reviewVideoUrl()!" type="video/mp4" />
             </video>
           </div>
 
           <ng-template #noVideo>
-            <div class="missing-video">
-              Kein Review-Video verknüpft.
-            </div>
+            <div class="missing-video">Kein Review-Video verknüpft.</div>
           </ng-template>
-
         </div>
 
         <div class="comment-section">
+          <label for="review-comment"> Review-Kommentar </label>
 
-          <label for="review-comment">
-            Review-Kommentar
-          </label>
-
-          <textarea
-            id="review-comment"
-            rows="6"
-            [(ngModel)]="reviewComment"
-          ></textarea>
-
+          <textarea id="review-comment" rows="6" [(ngModel)]="reviewComment"></textarea>
         </div>
 
         <div class="actions">
-
-          <button
-            type="button"
-            class="decline-button"
-            [disabled]="loading()"
-            (click)="decline()"
-          >
+          <button type="button" class="decline-button" [disabled]="loading()" (click)="decline()">
             Decline
           </button>
 
-          <button
-            type="button"
-            class="approve-button"
-            [disabled]="loading()"
-            (click)="approve()"
-          >
+          <button type="button" class="approve-button" [disabled]="loading()" (click)="approve()">
             Approve
           </button>
-
         </div>
 
         <p *ngIf="error()" class="error">
           {{ error() }}
         </p>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

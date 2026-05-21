@@ -44,8 +44,7 @@ select {
   &:focus {
     border-color: #a67c1a;
 
-    box-shadow:
-      0 0 0 0.2rem rgba(236, 184, 70, 0.22);
+    box-shadow: 0 0 0 0.2rem rgba(236, 184, 70, 0.22);
   }
 }
 
@@ -85,8 +84,7 @@ textarea {
 
   background: #fff8ec;
 
-  box-shadow:
-    0 2rem 5rem rgba(0, 0, 0, 0.34);
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.34);
 }
 
 .modal-header,
@@ -151,7 +149,7 @@ textarea {
 
   &::before,
   &::after {
-    content: "";
+    content: '';
 
     position: absolute;
 

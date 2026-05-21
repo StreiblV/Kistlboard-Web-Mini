@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from '@angular/core'
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core'
 
 import { CommonModule } from '@angular/common'
 import { Router } from '@angular/router'
@@ -11,7 +6,7 @@ import { Title } from '@angular/platform-browser'
 
 import { AuthService } from '../../auth/auth.service'
 import { Board } from '../../models/kistlboard.models'
-import { KistlboardService} from '../../services/kistlboard.service'
+import { KistlboardService } from '../../services/kistlboard.service'
 
 @Component({
   selector: 'app-boards-page',
@@ -21,9 +16,7 @@ import { KistlboardService} from '../../services/kistlboard.service'
   styleUrl: './boards-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardsPageComponent
-implements OnInit {
-
+export class BoardsPageComponent implements OnInit {
   boards: Board[] = []
 
   loading = true
@@ -42,9 +35,7 @@ implements OnInit {
     this.auth.fetchCurrentUser().subscribe({
       next: () => {
         if (!this.auth.isLoggedIn()) {
-          this.router.navigateByUrl(
-            '/login',
-          )
+          this.router.navigateByUrl('/login')
           return
         }
         this.title.setTitle(`Kistlboard`)
@@ -66,19 +57,12 @@ implements OnInit {
       },
 
       error: () => {
-        this.router.navigateByUrl(
-          '/login',
-        )
+        this.router.navigateByUrl('/login')
       },
     })
   }
 
-  openBoard(
-    board: Board,
-  ): void {
-
-    this.router.navigateByUrl(
-      `/boards/${board.slug}`,
-    )
+  openBoard(board: Board): void {
+    this.router.navigateByUrl(`/boards/${board.slug}`)
   }
 }

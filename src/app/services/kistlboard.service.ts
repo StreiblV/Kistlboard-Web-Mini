@@ -4,11 +4,7 @@ import { map, Observable, throwError } from 'rxjs'
 
 import { Board } from '../models/kistlboard.models'
 
-import {
-  KistlCard,
-  KistlMedia,
-  PayloadListResponse,
-} from '../models/kistlboard.models'
+import { KistlCard, KistlMedia, PayloadListResponse } from '../models/kistlboard.models'
 
 interface PayloadMutationResponse<T> {
   doc: T
@@ -28,34 +24,20 @@ export class KistlboardService {
 
   getBoards(): Observable<Board[]> {
     return this.http
-      .get<PayloadListResponse<Board>>(
-        '/api/boards?limit=100',
-        {
-          withCredentials: true,
-        },
-      )
-      .pipe(
-        map((response) => response.docs),
-      )
+      .get<PayloadListResponse<Board>>('/api/boards?limit=100', {
+        withCredentials: true,
+      })
+      .pipe(map((response) => response.docs))
   }
 
-    getBoardBySlug(
-    slug: string,
-  ): Observable<Board | null> {
-
+  getBoardBySlug(slug: string): Observable<Board | null> {
     return this.http
-      .get<PayloadListResponse<Board>>(
-        `/api/boards?where[slug][equals]=${slug}&limit=1`,
-        {
-          withCredentials: true,
-        },
-      )
+      .get<PayloadListResponse<Board>>(`/api/boards?where[slug][equals]=${slug}&limit=1`, {
+        withCredentials: true,
+      })
       .pipe(
         map((response) => {
-
-          if (
-            response.docs.length === 0
-          ) {
+          if (response.docs.length === 0) {
             return null
           }
 
@@ -64,10 +46,7 @@ export class KistlboardService {
       )
   }
 
-  getCards(
-    boardSlug: string,
-  ): Observable<KistlCard[]> {
-
+  getCards(boardSlug: string): Observable<KistlCard[]> {
     return this.http
       .get<PayloadListResponse<KistlCard>>(
         `${this.cardsApi}?depth=2&limit=100&sort=plannedPostingDate&where[board.slug][equals]=${boardSlug}`,
@@ -75,49 +54,41 @@ export class KistlboardService {
           withCredentials: true,
         },
       )
-      .pipe(
-        map((response) =>
-          response.docs.filter(
-            (card) => !card.archived,
-          ),
-        ),
-      )
+      .pipe(map((response) => response.docs.filter((card) => !card.archived)))
   }
 
   createCard(card: Partial<KistlCard>): Observable<KistlCard> {
     return this.http
-        .post<KistlCard | PayloadMutationResponse<KistlCard>>(
+      .post<KistlCard | PayloadMutationResponse<KistlCard>>(
         `${this.cardsApi}?depth=2`,
         {
-            name: card.name,
-            board: card.board,
-            part: card.part || '',
-            plannedPostingDate: card.plannedPostingDate || undefined,
-            emojiHints: card.emojiHints || '',
-            gifWish: card.gifWish || '',
-            textWishes: card.textWishes || '',
-            archived: false,
+          name: card.name,
+          board: card.board,
+          part: card.part || '',
+          plannedPostingDate: card.plannedPostingDate || undefined,
+          emojiHints: card.emojiHints || '',
+          gifWish: card.gifWish || '',
+          textWishes: card.textWishes || '',
+          archived: false,
         },
         { withCredentials: true },
-        )
-        .pipe(
+      )
+      .pipe(
         map((response) => {
-            if (this.isPayloadMutationResponse(response)) {
+          if (this.isPayloadMutationResponse(response)) {
             return response.doc
-            }
+          }
 
-            return response
+          return response
         }),
-        )
-    }
+      )
+  }
 
   updateCard(id: string | number, patch: Partial<KistlCard>): Observable<KistlCard> {
     return this.http
-      .patch<KistlCard | PayloadMutationResponse<KistlCard>>(
-        `${this.cardsApi}/${id}?depth=2`,
-        patch,
-        { withCredentials: true },
-      )
+      .patch<
+        KistlCard | PayloadMutationResponse<KistlCard>
+      >(`${this.cardsApi}/${id}?depth=2`, patch, { withCredentials: true })
       .pipe(
         map((response) => {
           if (this.isPayloadMutationResponse(response)) {
@@ -141,7 +112,7 @@ export class KistlboardService {
       review: {
         ...(card.review || {}),
         comment: card.review?.comment || '',
-    },
+      },
     })
   }
 
@@ -192,11 +163,9 @@ export class KistlboardService {
     )
 
     return this.http
-      .post<KistlMedia | PayloadMutationResponse<KistlMedia>>(
-        `${this.mediaApi}?depth=2`,
-        formData,
-        { withCredentials: true },
-      )
+      .post<
+        KistlMedia | PayloadMutationResponse<KistlMedia>
+      >(`${this.mediaApi}?depth=2`, formData, { withCredentials: true })
       .pipe(
         map((response) => {
           if (this.isPayloadMutationResponse(response)) {

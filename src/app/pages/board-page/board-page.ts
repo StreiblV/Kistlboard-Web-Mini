@@ -6,18 +6,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router'
 
 import { AuthService } from '../../auth/auth.service'
 
-import {
-  CalculatedWorkflow,
-  KistlCard,
-  KistlColumn,
-} from '../../models/kistlboard.models'
+import { CalculatedWorkflow, KistlCard, KistlColumn } from '../../models/kistlboard.models'
 
 import { KistlboardService } from '../../services/kistlboard.service'
 import { calculateWorkflow } from '../../workflow/kistlworkflow'
-import {
-  CHECKLIST_GROUPS,
-  ChecklistGroup,
-} from '../../workflow/kistlchecklist.config'
+import { CHECKLIST_GROUPS, ChecklistGroup } from '../../workflow/kistlchecklist.config'
 
 import { CardModalStore } from '../../stores/card-modal.store'
 
@@ -42,13 +35,12 @@ interface BoardColumn {
     RouterLink,
     CardModalComponent,
     ReviewModalComponent,
-    CreateCardModalComponent
+    CreateCardModalComponent,
   ],
   templateUrl: './board-page.html',
   styleUrl: './board-page.scss',
 })
 export class BoardPageComponent implements OnInit {
-
   cards: KistlCard[] = []
 
   loading = false
@@ -129,15 +121,12 @@ export class BoardPageComponent implements OnInit {
           this.currentBoardSlug = slug
           this.kistlboard.getBoardBySlug(slug).subscribe({
             next: (board) => {
-
               if (!board) {
                 this.router.navigateByUrl('/boards')
                 return
               }
               this.currentBoardId = board.id
-              this.title.setTitle(
-                `${board.name} | Kistlboard`,
-              )
+              this.title.setTitle(`${board.name} | Kistlboard`)
               this.loadCards()
             },
 
@@ -155,39 +144,29 @@ export class BoardPageComponent implements OnInit {
   }
 
   loadCards(): void {
-
     this.loading = true
     this.error = ''
     this.cdr.detectChanges()
 
-    this.kistlboard
-      .getCards(this.currentBoardSlug)
-      .subscribe({
+    this.kistlboard.getCards(this.currentBoardSlug).subscribe({
+      next: (cards) => {
+        this.cards = cards
+        this.loading = false
+        this.cdr.detectChanges()
+      },
 
-        next: (cards) => {
-          this.cards = cards
-          this.loading = false
-          this.cdr.detectChanges()
-        },
+      error: (error) => {
+        console.error('Cards loading failed:', error)
 
-        error: (error) => {
-          console.error(
-            'Cards loading failed:',
-            error,
-          )
-
-          this.error = 'Karten konnten nicht geladen werden.'
-          this.loading = false
-          this.cdr.detectChanges()
-        },
-      })
+        this.error = 'Karten konnten nicht geladen werden.'
+        this.loading = false
+        this.cdr.detectChanges()
+      },
+    })
   }
 
   cardsByColumn(column: KistlColumn): KistlCard[] {
-    return this.cards.filter(
-      (card) =>
-        this.getWorkflow(card).column === column,
-    )
+    return this.cards.filter((card) => this.getWorkflow(card).column === column)
   }
 
   getWorkflow(card: KistlCard): CalculatedWorkflow {
@@ -195,7 +174,6 @@ export class BoardPageComponent implements OnInit {
   }
 
   formatShortDate(date?: string): string {
-
     if (!date) {
       return 'kein Datum'
     }

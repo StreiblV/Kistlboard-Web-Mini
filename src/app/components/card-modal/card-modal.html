@@ -1,6 +1,9 @@
-<div *ngIf="cardModal.selectedCard() as selectedCard" class="modal-backdrop" (click)="cardModal.close()">
+<div
+  *ngIf="cardModal.selectedCard() as selectedCard"
+  class="modal-backdrop"
+  (click)="cardModal.close()"
+>
   <article class="modal" (click)="$event.stopPropagation()">
-
     <header class="modal-header">
       <div>
         <p class="eyebrow">Kistlkarte</p>
@@ -30,8 +33,11 @@
 
         <label>
           Geplantes Posting
-          <input type="date" [(ngModel)]="selectedCard.plannedPostingDate" 
-                  name="selectedPlannedPostingDate" />
+          <input
+            type="date"
+            [(ngModel)]="selectedCard.plannedPostingDate"
+            name="selectedPlannedPostingDate"
+          />
         </label>
 
         <label>
@@ -46,7 +52,11 @@
 
         <label>
           Textwünsche / Änderungen
-          <textarea rows="6" [(ngModel)]="selectedCard.textWishes" name="selectedTextWishes"></textarea>
+          <textarea
+            rows="6"
+            [(ngModel)]="selectedCard.textWishes"
+            name="selectedTextWishes"
+          ></textarea>
         </label>
 
         <label *ngIf="cardModal.showReviewComments(selectedCard)" class="field">
@@ -64,7 +74,8 @@
             type="button"
             class="primary-button"
             (click)="cardModal.saveSelectedCard()"
-            [disabled]="cardModal.saving()">
+            [disabled]="cardModal.saving()"
+          >
             {{ cardModal.saving() ? 'Speichert...' : 'Details speichern' }}
           </button>
 
@@ -73,7 +84,8 @@
             type="button"
             class="secondary-button"
             (click)="cardModal.startWorkflow(selectedCard)"
-            [disabled]="cardModal.saving()">
+            [disabled]="cardModal.saving()"
+          >
             Start Workflow
           </button>
 
@@ -82,7 +94,8 @@
               type="button"
               class="secondary-button"
               (click)="cardModal.moveSelectedCardToPreviousStep()"
-              [disabled]="cardModal.saving()">
+              [disabled]="cardModal.saving()"
+            >
               Zum vorherigen Step
             </button>
           </ng-template>
@@ -91,7 +104,8 @@
             type="button"
             class="muted-button"
             (click)="cardModal.archiveSelectedCard()"
-            [disabled]="cardModal.saving()">
+            [disabled]="cardModal.saving()"
+          >
             Archivieren
           </button>
         </div>
@@ -100,7 +114,10 @@
       <aside class="checklist-panel">
         <h3>Checklist</h3>
         <ng-container *ngIf="cardModal.hasVisibleChecklist(selectedCard); else noChecklist">
-          <div *ngFor="let group of cardModal.getVisibleChecklistGroups(selectedCard)" class="checklist-group">
+          <div
+            *ngFor="let group of cardModal.getVisibleChecklistGroups(selectedCard)"
+            class="checklist-group"
+          >
             <h4>{{ group.title }}</h4>
             <label *ngFor="let item of group.items" class="checkbox-row">
               <input
@@ -114,21 +131,21 @@
         </ng-container>
 
         <ng-template #noChecklist>
-          <p class="empty">
-            Für diese Spalte gibt es keine aktive Checklist.
-          </p>
+          <p class="empty">Für diese Spalte gibt es keine aktive Checklist.</p>
         </ng-template>
 
         <div *ngIf="cardModal.showFinalVideoSelector(selectedCard)" class="final-video-card">
           <h3>Final Review Video</h3>
           <select
             [ngModel]="cardModal.getSelectedFinalVideoId(selectedCard)"
-            (ngModelChange)="cardModal.setFinalVideo(selectedCard, $event)">
-            <option [ngValue]="null">
-              Kein Final Video ausgewählt
-            </option>
+            (ngModelChange)="cardModal.setFinalVideo(selectedCard, $event)"
+          >
+            <option [ngValue]="null">Kein Final Video ausgewählt</option>
 
-            <option *ngFor="let media of cardModal.getFinalVideoOptions(selectedCard)" [ngValue]="media.id">
+            <option
+              *ngFor="let media of cardModal.getFinalVideoOptions(selectedCard)"
+              [ngValue]="media.id"
+            >
               {{ media.filename }}
             </option>
           </select>
@@ -169,7 +186,6 @@
         <div *ngIf="cardModal.getAssets(selectedCard).length > 0; else noAssets" class="asset-list">
           <div *ngFor="let asset of cardModal.getAssets(selectedCard)" class="asset-card">
             <a class="asset-info" [href]="asset.url" target="_blank" rel="noopener">
-
               <div>
                 <strong>{{ asset.filename || 'Unbenannte Datei' }}</strong>
                 <p>{{ cardModal.getAssetTypeLabel(asset) }}</p>
@@ -180,7 +196,8 @@
               <button
                 class="download-button"
                 (click)="downloadAsset(asset, $event)"
-                title="Download">
+                title="Download"
+              >
                 ↓
               </button>
 
@@ -192,9 +209,7 @@
         </div>
 
         <ng-template #noAssets>
-          <p class="empty">
-            Noch keine Medien mit dieser Karte verknüpft.
-          </p>
+          <p class="empty">Noch keine Medien mit dieser Karte verknüpft.</p>
         </ng-template>
       </section>
     </section>

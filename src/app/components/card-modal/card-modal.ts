@@ -21,9 +21,6 @@ export class CardModalComponent {
     event.preventDefault()
     event.stopPropagation()
 
-    window.open(
-      asset.url,
-      '_blank',
-    )
+    window.open(asset.url, '_blank')
   }
 }

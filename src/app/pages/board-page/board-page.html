@@ -1,78 +1,70 @@
 @if (!auth.initialized()) {
-  <div class="auth-loading">
-    Lade Session...
-  </div>
-
+  <div class="auth-loading">Lade Session...</div>
 } @else {
-<main class="app-shell">
-  <a class="back-to-boards" routerLink="/boards"> ← Boards </a>
+  <main class="app-shell">
+    <a class="back-to-boards" routerLink="/boards"> ← Boards </a>
 
-  <header class="hero">
-    <div>
-      <p class="eyebrow">Content Production Board</p>
-      <h1>Kistlboard</h1>
-      <p class="hero-text">
-        Von Character-Artwork über Videoschnitt bis Review, Caption und Posting.
-      </p>
-    </div>
-
-    <div class="hero-actions">
-      <app-create-card-modal
-        (cardCreated)="loadCards()"
-        [boardId]="currentBoardId">
-      </app-create-card-modal>
-
-      <div class="stats-card">
-        <strong>{{ cards.length }}</strong>
-        <span>aktive Kistlkarten</span>
-      </div>
-    </div>
-  </header>
-
-  <section *ngIf="loading" class="info">
-    Karten werden geladen...
-  </section>
-
-  <section *ngIf="error" class="error">
-    {{ error }}
-  </section>
-
-  <section class="board">
-    <article *ngFor="let column of columns" class="column">
-      <header class="column-header">
-        <div>
-          <h2>{{ column.title }}</h2>
-          <p>{{ column.subtitle }}</p>
-        </div>
-
-        <span>{{ cardsByColumn(column.column).length }}</span>
-      </header>
-
-      <div class="card-list">
-        <app-board-card
-          *ngFor="let card of cardsByColumn(column.column)"
-          [card]="card"
-          (cardClick)="cardModal.open($event)">
-        </app-board-card>
-
-        <p *ngIf="cardsByColumn(column.column).length === 0" class="empty">
-          Nichts im Kistl.
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Content Production Board</p>
+        <h1>Kistlboard</h1>
+        <p class="hero-text">
+          Von Character-Artwork über Videoschnitt bis Review, Caption und Posting.
         </p>
       </div>
-    </article>
-  </section>
-</main>
 
-<ng-container *ngIf="cardModal.selectedCard() as selectedCard">
-  <!-- REVIEW MODAL -->
-  <app-review-modal
-    *ngIf="cardModal.isReviewCard(selectedCard)"
-    [card]="selectedCard"
-    (close)="cardModal.close()">
-  </app-review-modal>
+      <div class="hero-actions">
+        <app-create-card-modal (cardCreated)="loadCards()" [boardId]="currentBoardId">
+        </app-create-card-modal>
 
-  <!-- STANDARD CARD MODAL -->
-  <app-card-modal *ngIf="!cardModal.isReviewCard(selectedCard)">
-  </app-card-modal>
-</ng-container>
+        <div class="stats-card">
+          <strong>{{ cards.length }}</strong>
+          <span>aktive Kistlkarten</span>
+        </div>
+      </div>
+    </header>
+
+    <section *ngIf="loading" class="info">Karten werden geladen...</section>
+
+    <section *ngIf="error" class="error">
+      {{ error }}
+    </section>
+
+    <section class="board">
+      <article *ngFor="let column of columns" class="column">
+        <header class="column-header">
+          <div>
+            <h2>{{ column.title }}</h2>
+            <p>{{ column.subtitle }}</p>
+          </div>
+
+          <span>{{ cardsByColumn(column.column).length }}</span>
+        </header>
+
+        <div class="card-list">
+          <app-board-card
+            *ngFor="let card of cardsByColumn(column.column)"
+            [card]="card"
+            (cardClick)="cardModal.open($event)"
+          >
+          </app-board-card>
+
+          <p *ngIf="cardsByColumn(column.column).length === 0" class="empty">Nichts im Kistl.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <ng-container *ngIf="cardModal.selectedCard() as selectedCard">
+    <!-- REVIEW MODAL -->
+    <app-review-modal
+      *ngIf="cardModal.isReviewCard(selectedCard)"
+      [card]="selectedCard"
+      (close)="cardModal.close()"
+    >
+    </app-review-modal>
+
+    <!-- STANDARD CARD MODAL -->
+    <app-card-modal *ngIf="!cardModal.isReviewCard(selectedCard)"> </app-card-modal>
+  </ng-container>
 }

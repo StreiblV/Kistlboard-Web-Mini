@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
@@ -14,22 +10,16 @@ import { CardModalStore } from '../../stores/card-modal.store'
 @Component({
   selector: 'app-review-modal',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './review-modal.html',
   styleUrl: './review-modal.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewModalComponent {
-
   @Input({ required: true })
   card!: KistlCard
 
-  constructor(
-    public readonly cardModal: CardModalStore,
-  ) {}
+  constructor(public readonly cardModal: CardModalStore) {}
 
   get reviewComment(): string {
     return this.card.review?.comment || ''
@@ -45,11 +35,7 @@ export class ReviewModalComponent {
   reviewVideoUrl(): string | null {
     const video = this.card.finalVideo
 
-    if (
-      !video ||
-      typeof video === 'string' ||
-      typeof video === 'number'
-    ) {
+    if (!video || typeof video === 'string' || typeof video === 'number') {
       return null
     }
 

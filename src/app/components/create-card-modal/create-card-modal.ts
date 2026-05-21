@@ -12,7 +12,7 @@ import { KistlCard } from '../../models/kistlboard.models'
   styleUrl: './create-card-modal.scss',
 })
 export class CreateCardModalComponent {
-  @Input() boardId:string | number | null = null
+  @Input() boardId: string | number | null = null
   @Output() cardCreated = new EventEmitter<KistlCard>()
 
   isOpen = signal(false)
@@ -44,21 +44,23 @@ export class CreateCardModalComponent {
     this.error.set('')
     this.saving.set(true)
 
-    this.kistlboard.createCard({
-      ...this.newCard,
-      board: this.boardId,
-    }).subscribe({
-      next: (createdCard) => {
-        this.cardCreated.emit(createdCard)
-        this.saving.set(false)
-        this.close()
-      },
-      error: (error) => {
-        console.error(error)
-        this.error.set('Karte konnte nicht erstellt werden.')
-        this.saving.set(false)
-      },
-    })
+    this.kistlboard
+      .createCard({
+        ...this.newCard,
+        board: this.boardId,
+      })
+      .subscribe({
+        next: (createdCard) => {
+          this.cardCreated.emit(createdCard)
+          this.saving.set(false)
+          this.close()
+        },
+        error: (error) => {
+          console.error(error)
+          this.error.set('Karte konnte nicht erstellt werden.')
+          this.saving.set(false)
+        },
+      })
   }
 
   private getEmptyCard(): Partial<KistlCard> {
