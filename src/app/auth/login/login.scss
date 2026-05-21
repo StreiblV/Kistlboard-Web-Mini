@@ -5,42 +5,33 @@
   background:
     radial-gradient(circle at top left, rgba(236, 184, 70, 0.22), transparent 34rem),
     linear-gradient(135deg, #fff8ec 0%, #f4eddf 100%);
-
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
 .login-page {
   min-height: 100dvh;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 2rem;
 }
 
 .login-card {
   width: min(100%, 28rem);
-
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
   padding: 2rem;
 
   border-radius: 2rem;
-
-  background: rgba(255, 255, 255, 0.72);
-
   border: 1px solid rgba(0, 0, 0, 0.06);
-
+  background: rgba(255, 255, 255, 0.72);
   box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.12);
 }
 
 .login-header {
   h1 {
     margin: 0;
-
     font-size: 4rem;
     line-height: 0.95;
     letter-spacing: -0.08em;
@@ -49,21 +40,16 @@
 
 .eyebrow {
   margin: 0 0 0.5rem;
-
   color: #9a6a16;
-
   text-transform: uppercase;
   letter-spacing: 0.16em;
-
   font-size: 0.78rem;
   font-weight: 900;
 }
 
 .subtitle {
   margin-top: 1rem;
-
   color: #6f655b;
-
   font-weight: 600;
 }
 
@@ -84,16 +70,13 @@ label {
 
 input {
   height: 52px;
-
   padding: 0 1rem;
 
   border-radius: 18px;
   border: 1px solid rgba(0, 0, 0, 0.08);
-
   background: white;
 
   font: inherit;
-
   outline: none;
 
   &:focus {
@@ -107,13 +90,11 @@ button {
 
   border: none;
   border-radius: 999px;
-
   background: #241f1b;
   color: #fff8ec;
 
   font-size: 1rem;
   font-weight: 800;
-
   cursor: pointer;
 
   transition:
@@ -132,7 +113,6 @@ button:disabled {
 
 .error {
   margin: 0;
-
   color: #a14a3d;
   font-weight: 700;
 }
